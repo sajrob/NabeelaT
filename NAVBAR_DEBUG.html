@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="cupcake">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navbar Debug Test</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.19/dist/full.css" rel="stylesheet" type="text/css" />
+    <style>
+        .debug-box {
+            border: 2px solid red;
+            background: rgba(255, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+    <h1 class="text-2xl p-4">Navbar Visibility Debug Test</h1>
+
+    <div class="p-4">
+        <p>Screen width: <span id="width"></span>px</p>
+        <p>Tailwind breakpoints:</p>
+        <ul class="list-disc ml-8">
+            <li>sm: 640px</li>
+            <li>md: 768px</li>
+            <li>lg: 1024px</li>
+            <li>xl: 1280px</li>
+        </ul>
+    </div>
+
+    <!-- Test 1: Basic hidden md:flex -->
+    <div class="p-4 border-2 border-blue-500 m-4">
+        <h2 class="font-bold">Test 1: hidden md:flex</h2>
+        <div class="hidden md:flex bg-green-500 text-white p-4 mt-2">
+            This should be HIDDEN on mobile, VISIBLE on md (768px+) and larger
+        </div>
+    </div>
+
+    <!-- Test 2: Mobile hamburger -->
+    <div class="p-4 border-2 border-blue-500 m-4">
+        <h2 class="font-bold">Test 2: md:hidden (mobile only)</h2>
+        <div class="md:hidden bg-orange-500 text-white p-4 mt-2">
+            This should be VISIBLE on mobile, HIDDEN on md (768px+) and larger
+        </div>
+    </div>
+
+    <!-- Test 3: The actual navbar structure -->
+    <div class="p-4 border-2 border-blue-500 m-4">
+        <h2 class="font-bold">Test 3: Actual navbar structure</h2>
+        <div class="navbar bg-base-100 border border-base-200 mt-2">
+            <div class="navbar-start">
+                <!-- Mobile menu -->
+                <div class="md:hidden bg-orange-200">
+                    <button class="btn btn-ghost">☰ Mobile Menu</button>
+                </div>
+                <a class="text-xl font-bold">Logo</a>
+            </div>
+            <div class="navbar-end hidden md:flex debug-box">
+                <ul class="menu menu-horizontal px-1">
+                    <li><a>Home</a></li>
+                    <li><a>Biography</a></li>
+                    <li><a>Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function updateWidth() {
+            document.getElementById('width').textContent = window.innerWidth;
+        }
+        updateWidth();
+        window.addEventListener('resize', updateWidth);
+    </script>
+</body>
+
+</html>

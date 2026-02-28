@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* You can add project-wide custom styles here */
+
+.mask-image-fade {
+  /* The gradient goes from left (transparent) to right (opaque) */
+  mask-image: linear-gradient(to right, transparent, black);
+  /* -webkit-mask-image is often required for broader compatibility */
+  -webkit-mask-image: linear-gradient(to right, transparent, black);
+}
+
+/* Custom Entrance Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-in {
+  /* Keeps the final state */
+  animation-fill-mode: both;
+  animation-duration: 0.5s;
+  /* Ensures content is hidden until animation starts, preventing FOUC */
+  opacity: 0;
+}
+
+.fade-in {
+  animation-name: fadeIn;
+}
+
+/* Slide up animation */
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.slide-in-from-bottom {
+  animation-name: slideUp;
+}
