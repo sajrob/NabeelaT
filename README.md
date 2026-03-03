@@ -1,4 +1,4 @@
-# Nabeelatun Is Personal Website
+# Nabeela Tunis Personal Website
 
 A responsive React application built with Vite, TypeScript and Tailwind CSS. The site features several pages (Home, Biography, Impact, Tourism, Foundation, Contact) and shared components such as a navbar, footer and scroll‑to‑top helper. It’s designed to be easy to run locally and deploy to any static host.
 
