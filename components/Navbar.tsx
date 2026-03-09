@@ -1,28 +1,15 @@
-import React, { useRef, useEffect, useState } from "react";
-import { useLocation, Link } from "react-router-dom";
+import React, { useEffect, useState, useRef } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 /**
  * Navbar component for site navigation.
- * Features a structured hierarchy where Tourism and Philanthropy are grouped under "Impact".
  */
 const Navbar: React.FC = () => {
-  const location = useLocation();
-
-  const isActive = (path: string) => location.pathname === path;
-
-  // Helper to check if any child of Impact is active
-  const isImpactActive = () =>
-    ["/impact", "/tourism", "/foundation"].includes(location.pathname);
-
-  const desktopDetailsRef = useRef<HTMLDetailsElement | null>(null);
-
-  const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-
-  const closeMenus = () => {
-    setMobileOpen(false);
-    if (desktopDetailsRef.current) desktopDetailsRef.current.open = false;
-  };
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const location = useLocation();
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -32,148 +19,164 @@ const Navbar: React.FC = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close menus whenever the route changes
+  // Close mobile menu on route change
   useEffect(() => {
-    closeMenus();
+    setMobileMenuOpen(false);
+    setDropdownOpen(false);
   }, [location.pathname]);
 
+  // Handle clicking outside of dropdown for mobile/desktop toggle variants
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") closeMenus();
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setDropdownOpen(false);
+      }
     };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  const getLinkClasses = (path: string) => {
+    const isActive = location.pathname === path;
+    return `px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 ${isActive
+      ? "bg-primary text-white shadow-md shadow-primary/20"
+      : "hover:bg-primary/70 text-base-content/80 hover:text-base-content"
+      }`;
+  };
+
+  const getMobileLinkClasses = (path: string) => {
+    const isActive = location.pathname === path;
+    return `block px-4 py-3 rounded-xl text-base font-medium transition-all duration-300 ${isActive
+      ? "bg-primary text-white shadow-md shadow-primary/20"
+      : "hover:bg-primary/70 text-base-content/80 hover:text-base-content"
+      }`;
+  };
 
   return (
     <nav className={`sticky top-0 inset-x-0 z-[100] transition-all duration-500 ${scrolled ? "bg-base-100/80 backdrop-blur-xl border-b border-base-200 py-2 shadow-sm" : "bg-base-100/40 backdrop-blur-md py-3 md:py-4"}`}>
       <div className="container mx-auto px-6 md:px-12 flex items-center justify-between">
+
+        {/* Logo */}
         <div className="flex items-center">
-          {/* Logo */}
           <Link
             to="/"
-            className="text-2xl font-bold tracking-tighter serif flex items-center gap-3 active:scale-95 transition-transform group"
+            className="text-xl md:text-2xl font-bold tracking-tighter serif flex items-center gap-3 active:scale-95 transition-transform group"
           >
-            <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-white shadow-lg shadow-primary/20 group-hover:rotate-12 transition-transform">
-              <span className="text-xl">N</span>
+            <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg md:rounded-xl bg-primary flex items-center justify-center text-white shadow-lg shadow-primary/20 group-hover:rotate-12 transition-transform">
+              <span className="text-lg md:text-xl">N</span>
             </div>
-            <span className="hidden sm:block">
-              <span className="text-primary">Hon.</span> Nabeela Tunis
+            <span className="text-primary">
+              <span className="text-black">Hon.</span> Nabeela Tunis
             </span>
           </Link>
         </div>
 
-        <div className="flex items-center gap-8">
-          {/* Desktop Menu */}
-          <ul className="hidden md:flex items-center gap-2">
-            <li>
-              <Link
-                to="/"
-                className={`px-4 py-2 rounded-xl text-sm font-bold uppercase tracking-widest transition-all ${isActive("/") ? "bg-primary text-white shadow-lg shadow-primary/20" : "hover:bg-primary/5 text-base-content/70 hover:text-primary"}`}
-              >
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/biography"
-                className={`px-4 py-2 rounded-xl text-sm font-bold uppercase tracking-widest transition-all ${isActive("/biography") ? "bg-primary text-white shadow-lg shadow-primary/20" : "hover:bg-primary/5 text-base-content/70 hover:text-primary"}`}
-              >
-                Biography
-              </Link>
-            </li>
-            <li className="relative group">
-              <details ref={desktopDetailsRef} className="dropdown dropdown-bottom">
-                <summary className={`px-4 py-2 rounded-xl text-sm font-bold uppercase tracking-widest cursor-pointer list-none flex items-center gap-1 transition-all ${isImpactActive() ? "bg-primary text-white shadow-lg shadow-primary/20" : "hover:bg-primary/5 text-base-content/70 hover:text-primary"}`}>
-                  Impact
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
-                </summary>
-                <ul className="p-4 shadow-2xl menu dropdown-content z-[2] bg-base-100 rounded-[1.5rem] w-64 border border-base-200 mt-2 animate-in fade-in slide-up">
-                  <li>
-                    <Link to="/impact" onClick={closeMenus} className="p-3 rounded-xl hover:bg-primary/5 group/link">
-                      <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover/link:bg-primary group-hover/link:text-white transition-colors">
-                          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
-                        </div>
-                        <div>
-                          <p className="font-bold text-sm">Overview</p>
-                          <p className="text-[10px] opacity-60">Leadership Strategy</p>
-                        </div>
-                      </div>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/tourism" onClick={closeMenus} className="p-3 rounded-xl hover:bg-secondary/5 group/link">
-                      <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 rounded-lg bg-secondary/10 flex items-center justify-center text-secondary group-hover/link:bg-secondary group-hover/link:text-white transition-colors">
-                          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9" /></svg>
-                        </div>
-                        <div>
-                          <p className="font-bold text-sm">Tourism</p>
-                          <p className="text-[10px] opacity-60">Cultural Heritage</p>
-                        </div>
-                      </div>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/foundation" onClick={closeMenus} className="p-3 rounded-xl hover:bg-accent/5 group/link">
-                      <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center text-accent group-hover/link:bg-accent group-hover/link:text-white transition-colors">
-                          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
-                        </div>
-                        <div>
-                          <p className="font-bold text-sm">Foundation</p>
-                          <p className="text-[10px] opacity-60">Humanitarian Aid</p>
-                        </div>
-                      </div>
-                    </Link>
-                  </li>
-                </ul>
-              </details>
-            </li>
-          </ul>
+        {/* Mobile Menu Toggle */}
+        <div className="flex items-center lg:hidden">
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="btn btn-ghost btn-circle"
+            aria-label="Toggle Navigation"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={mobileMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
+            </svg>
+          </button>
+        </div>
 
-          <Link to="/contact" className="hidden lg:flex btn btn-primary rounded-2xl px-6 shadow-xl shadow-primary/20 transition-transform active:scale-95">
-            Get in touch
+        {/* Desktop Navigation */}
+        <div className="hidden lg:flex items-center gap-2">
+          <Link to="/" className={getLinkClasses("/")}>
+            Home
+          </Link>
+          <Link to="/biography" className={getLinkClasses("/biography")}>
+            Biography
           </Link>
 
-          {/* Mobile Toggle */}
-          <button
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="md:hidden w-12 h-12 rounded-2xl bg-base-200 flex items-center justify-center text-primary active:scale-95 transition-all"
-            aria-label="Toggle menu"
-          >
-            {mobileOpen ? (
-              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
-            ) : (
-              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
-            )}
-          </button>
+          {/* Impact Dropdown */}
+          <div className="relative group" ref={dropdownRef}>
+            <button
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+              className={`flex items-center gap-1 ${getLinkClasses("/impact")} ${['/tourism', '/foundation', '/impact'].includes(location.pathname) ? "bg-primary text-white shadow-md shadow-primary/20" : ""}`}
+            >
+              Impact
+              <svg xmlns="http://www.w3.org/2000/svg" className={`h-4 w-4 transition-transform ${dropdownOpen ? "rotate-180" : "group-hover:rotate-180"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+
+            {/* Dropdown Menu - Hover on Desktop */}
+            <div className={`absolute top-full left-0 mt-3 w-56 bg-base-100 rounded-2xl shadow-2xl border border-base-200 overflow-hidden transition-all origin-top ${dropdownOpen ? "scale-y-100 opacity-100" : "scale-y-0 opacity-0 group-hover:scale-y-100 group-hover:opacity-100"}`}>
+              <div className="p-2 flex flex-col gap-1">
+                <Link to="/impact" className="px-4 py-2 rounded-xl hover:bg-primary/70 transition-colors text-sm font-medium">
+                  Overview
+                </Link>
+                <Link to="/tourism" className="px-4 py-2 rounded-xl hover:bg-primary/70 transition-colors text-sm font-medium">
+                  Tourism
+                </Link>
+                <Link to="/foundation" className="px-4 py-2 rounded-xl hover:bg-primary/70 transition-colors text-sm font-medium">
+                  Foundation
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          <div className="w-px h-6 bg-base-200 mx-2"></div>
+
+          <Link to="/contact" className="btn btn-primary btn-sm md:btn-sm rounded-xl px-6 shadow-md shadow-primary/20 transition-transform active:scale-95">
+            Get in touch
+          </Link>
         </div>
       </div>
 
-      {/* Mobile Menu Overlay */}
-      <div className={`fixed inset-0 top-[64px] bg-base-100 z-[99] md:hidden transition-all duration-500 overflow-y-auto ${mobileOpen ? "opacity-100 translate-y-0" : "opacity-0 translate-y-full pointer-events-none"}`}>
-        <div className="p-8 space-y-8">
-          <ul className="space-y-4">
-            <li>
-              <Link to="/" onClick={closeMenus} className={`text-4xl font-bold serif ${isActive("/") ? "text-primary" : "opacity-40"}`}>Home</Link>
-            </li>
-            <li>
-              <Link to="/biography" onClick={closeMenus} className={`text-4xl font-bold serif ${isActive("/biography") ? "text-primary" : "opacity-40"}`}>Biography</Link>
-            </li>
-            <li className="space-y-4 pt-4 border-t border-base-200">
-              <p className="text-xs font-black uppercase tracking-widest opacity-30">Our Impact</p>
-              <div className="grid grid-cols-1 gap-4">
-                <Link to="/impact" onClick={closeMenus} className="text-2xl font-bold serif opacity-40 hover:opacity-100">Policy & Leadership</Link>
-                <Link to="/tourism" onClick={closeMenus} className="text-2xl font-bold serif opacity-40 hover:opacity-100">Tourism & Culture</Link>
-                <Link to="/foundation" onClick={closeMenus} className="text-2xl font-bold serif opacity-40 hover:opacity-100">One Love Foundation</Link>
+      {/* Mobile Navigation Menu */}
+      <div
+        className={`lg:hidden fixed inset-x-4 top-[80px] rounded-3xl transition-all duration-300 ease-in-out overflow-hidden shadow-2xl border border-white/5 backdrop-blur-3xl z-50 ${mobileMenuOpen
+          ? "max-h-[600px] opacity-100 scale-100 bg-base-100/95"
+          : "max-h-0 opacity-0 scale-95 pointer-events-none"
+          }`}
+      >
+        <div className="p-4 flex flex-col gap-2">
+          <Link to="/" className={getMobileLinkClasses("/")}>
+            Home
+          </Link>
+          <Link to="/biography" className={getMobileLinkClasses("/biography")}>
+            Biography
+          </Link>
+
+          <div className="flex flex-col gap-1">
+            <button
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+              className={`flex items-center justify-between px-4 py-3 rounded-xl text-base font-medium transition-all duration-300 ${['/tourism', '/foundation', '/impact'].includes(location.pathname) ? "bg-primary text-white shadow-md shadow-primary/20" : "hover:bg-primary/30 text-base-content/80 hover:text-base-content"}`}
+            >
+              Impact
+              <svg xmlns="http://www.w3.org/2000/svg" className={`h-5 w-5 transition-transform duration-300 ${dropdownOpen ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+
+            {/* Mobile Dropdown Content */}
+            <div className={`flex flex-col overflow-hidden transition-all duration-300 ${dropdownOpen ? "max-h-64 opacity-100 mt-1" : "max-h-0 opacity-0"}`}>
+              <div className="flex flex-col gap-1 p-2 bg-base-200/50 rounded-2xl mx-2">
+                <Link to="/impact" className="block px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-primary/30 transition-colors">
+                  Overview
+                </Link>
+                <Link to="/tourism" className="block px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-primary/30 transition-colors">
+                  Tourism
+                </Link>
+                <Link to="/foundation" className="block px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-primary/30 transition-colors">
+                  Foundation
+                </Link>
               </div>
-            </li>
-          </ul>
-          <div className="pt-8 border-t border-base-200">
-            <Link to="/contact" onClick={closeMenus} className="btn btn-primary btn-lg btn-block rounded-2xl">Contact Hon. Tunis</Link>
+            </div>
           </div>
+
+          <div className="h-px bg-base-content/10 my-2 mx-4"></div>
+
+          <Link to="/contact" className="btn btn-primary w-full rounded-2xl py-3 shadow-lg shadow-primary/20 border-none group relative overflow-hidden">
+            <span className="relative z-10">Get in touch</span>
+            <div className="absolute inset-0 bg-white/20 transform -translate-x-full skew-x-12 group-hover:translate-x-full transition-transform duration-700"></div>
+          </Link>
         </div>
       </div>
     </nav>
@@ -181,4 +184,3 @@ const Navbar: React.FC = () => {
 };
 
 export default Navbar;
-

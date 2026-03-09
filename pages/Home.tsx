@@ -23,9 +23,9 @@ const Home: React.FC = () => {
         {/* Background Image & Overlays */}
         <div className="absolute inset-0 z-0 select-none pointer-events-none">
           <img
-            src="/922-1920x1080-grayscale.jpg"
+            src="/HonNabeelaFaridaTunis.png"
             alt="Hon. Nabeela Tunis Background"
-            className="w-full h-full object-cover grayscale opacity-60 transition-transform duration-[20s] ease-out group-hover:scale-110"
+            className="w-full h-full object-cover grayscale opacity-80 transition-transform duration-[20s] ease-out group-hover:scale-110"
           />
         </div>
 
@@ -37,7 +37,7 @@ const Home: React.FC = () => {
               <span className="text-primary italic font-serif relative inline-block">
                 Farida
                 <svg className="absolute -bottom-4 left-0 w-full h-3 text-primary/40" viewBox="0 0 100 10" preserveAspectRatio="none">
-                  <path d="M0 5 Q 25 0, 50 5 T 100 5" fill="none" stroke="currentColor" strokeWidth="4" />
+                  <path d="M0 5 Q 25 0, 50 5 T 100 5" fill="none" stroke="currentColor" strokeWidth="4" stroke-linecap="round" opacity="1" pathLength="1" stroke-dashoffset="0" stroke-dasharray="1 1" />
                 </svg>
               </span> Tunis
             </h1>

@@ -33,7 +33,7 @@ const Biography: React.FC = () => {
               {/* Image Section */}
               <div className="aspect-[4/5] relative overflow-hidden bg-primary/5">
                 <img
-                  src="/nabeela_profile.jpg"
+                  src="/NFT-min.png"
                   alt="Hon. Nabeela Tunis"
                   className="object-cover w-full h-full transition-transform duration-1000 group-hover:scale-105"
                 />
