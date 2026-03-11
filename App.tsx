@@ -9,6 +9,7 @@ import Tourism from "./pages/Tourism";
 import Impact from "./pages/Impact";
 import Contact from "./pages/Contact";
 import Foundation from "./pages/Foundation";
+import News from "./pages/News";
 
 import { HelmetProvider } from "react-helmet-async";
 
@@ -31,6 +32,7 @@ const App: React.FC = () => {
               <Route path="/impact" element={<Impact />} />
               <Route path="/foundation" element={<Foundation />} />
               <Route path="/contact" element={<Contact />} />
+              <Route path="/news" element={<News />} />
             </Routes>
           </main>
           <Footer />
