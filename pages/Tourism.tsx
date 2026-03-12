@@ -17,28 +17,26 @@ const Tourism: React.FC = () => {
         <link rel="canonical" href="https://nabeelatunis.com/tourism" />
       </Helmet>
 
-      {/* Hero Section */}
-      <section className="relative h-[60vh] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 z-0 select-none pointer-events-none">
-          <img
-            src="/Tokeh-min.webp"
-            alt="Sierra Leone Tourism"
-            className="w-full h-full object-cover scale-110 animate-float"
-            style={{ animationDuration: '20s' }}
-          />
-          <div className="absolute inset-0 bg-black/50 backdrop-blur-[1px]"></div>
-          <div className="absolute inset-0 bg-gradient-to-t from-base-100 via-transparent to-transparent"></div>
-        </div>
-        <div className="relative z-10 text-center text-white px-6">
+
+      <header className="relative section-padding bg-base-200/50 border-b border-base-200 overflow-hidden">
+        {/* Background elements */}
+        <div className="absolute top-0 left-0 w-64 h-64 bg-primary/5 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl animate-float"></div>
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-secondary/5 rounded-full translate-x-1/3 translate-y-1/3 blur-3xl"></div>
+
+        <div className="container mx-auto text-center relative z-10">
           <div className="animate-in slide-up">
-            <span className="bg-primary px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest mb-8 inline-block shadow-xl shadow-primary/20">National Vision</span>
-            <h1 className="text-5xl md:text-8xl font-bold mb-8 serif tracking-tight">Tourism & <span className="text-primary italic">Culture</span></h1>
-            <p className="text-xl md:text-2xl max-w-2xl mx-auto opacity-90 font-light italic border-white/20 border-l-2 pl-6">
-              "Transforming our natural beauty and cultural heritage into sustainable national prosperity."
+            <span className="bg-primary/10 text-primary px-5 py-2 rounded-full text-xs font-bold uppercase tracking-[0.2em] mb-8 inline-block">
+              National Heritage & Growth
+            </span>
+            <h1 className="text-5xl md:text-8xl font-bold mb-8 serif tracking-tight">
+              Tourism & <span className="text-primary italic">Culture</span>
+            </h1>
+            <p className="text-xl md:text-2xl text-base-content/60 max-w-2xl mx-auto opacity-90 font-light italic border-l-2 border-primary pl-6">
+              Transforming our natural beauty and cultural heritage into sustainable national prosperity.
             </p>
           </div>
         </div>
-      </section>
+      </header>
 
       {/* Main Content */}
       <section className="section-padding bg-base-100">
@@ -92,7 +90,7 @@ const Tourism: React.FC = () => {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="premium-card p-12 group">
+            <div className="premium-card p-12 group bg-base-200/50 hover:bg-base-100 shadow-2xl">
               <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center text-primary mb-8 transition-all group-hover:bg-primary group-hover:text-white">
                 <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
               </div>
@@ -102,8 +100,8 @@ const Tourism: React.FC = () => {
               </p>
             </div>
 
-            <div className="premium-card p-12 group border-primary shadow-2xl bg-primary/5">
-              <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center text-white mb-8 shadow-lg shadow-primary/20">
+            <div className="premium-card p-12 group bg-base-200/50 hover:bg-base-100 shadow-2xl">
+              <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center text-primary mb-8 transition-all group-hover:bg-primary group-hover:text-white">
                 <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12z" /></svg>
               </div>
               <h3 className="text-2xl font-bold mb-4 serif">Arts & Heritage</h3>
@@ -112,7 +110,7 @@ const Tourism: React.FC = () => {
               </p>
             </div>
 
-            <div className="premium-card p-12 group">
+            <div className="premium-card p-12 group bg-base-200/50 hover:bg-base-100 shadow-2xl">
               <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center text-primary mb-8 transition-all group-hover:bg-primary group-hover:text-white">
                 <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
               </div>

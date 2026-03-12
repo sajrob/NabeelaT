@@ -34,7 +34,8 @@ const Impact: React.FC = () => {
             <h1 className="text-5xl md:text-8xl font-bold mb-8 serif tracking-tight">
               Legacy of <span className="text-primary italic">Impact</span>
             </h1>
-            <p className="text-xl md:text-2xl text-base-content/60 leading-relaxed max-w-3xl mx-auto font-light italic">
+            <p className="text-xl md:text-2xl text-base-content/60 max-w-2xl mx-auto opacity-90 font-light italic border-l-2 border-primary pl-6">
+
               "Building a resilient, inclusive, and culturally rich Sierra Leone through strategic policy and grassroots advocacy."
             </p>
           </div>
@@ -108,12 +109,12 @@ const Impact: React.FC = () => {
         </div>
 
         {/* Dynamic Success Grid */}
-        <div className="text-center mb-24 animate-in slide-up">
+        <div className="text-center mb-20 animate-in slide-up">
           <h2 className="text-4xl md:text-6xl font-bold mb-10 serif tracking-tight">Policy <span className="text-primary italic">Successes</span></h2>
           <div className="w-24 h-1 bg-primary/20 mx-auto"></div>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-10 mb-32">
+        <div className="grid md:grid-cols-3 gap-10">
           {BROADER_IMPACT.map((item, index) => (
             <div key={index} className="premium-card p-12 group bg-base-200/50 hover:bg-base-100">
               <div className="text-[10px] uppercase font-black tracking-widest text-primary mb-6 group-hover:scale-110 transition-transform inline-block">

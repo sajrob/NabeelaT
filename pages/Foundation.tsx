@@ -1,6 +1,7 @@
 import React from "react";
 import { Helmet } from "react-helmet-async";
 import { FOUNDATION_INITIATIVES } from "../constants";
+import { Link } from "react-router-dom";
 
 /**
  * Foundation page.
@@ -35,7 +36,7 @@ const Foundation: React.FC = () => {
               Fostering <span className="text-primary italic">Unity</span>
             </h1>
             <p className="text-xl md:text-2xl max-w-2xl mx-auto opacity-90 font-light italic border-l-2 border-primary pl-6">
-              "Building common ground across boundaries for a united and progressive Sierra Leone."
+              Building common ground across boundaries for a united and progressive Sierra Leone.
             </p>
           </div>
         </div>
@@ -44,7 +45,8 @@ const Foundation: React.FC = () => {
       {/* Core Mission */}
       <section className="section-padding bg-base-100">
         <div className="container mx-auto">
-          <div className="max-w-4xl mx-auto text-center mb-32 animate-in slide-up">
+          <div className="max-w-4xl mx-auto text-center mb-20
+           animate-in slide-up">
             <h2 className="text-4xl md:text-6xl font-bold mb-10 serif tracking-tight">The <span className="text-primary italic font-serif">Mission</span></h2>
             <div className="w-24 h-1 bg-primary/20 mx-auto mb-10 rounded-full"></div>
             <p className="text-xl md:text-2xl text-base-content/60 leading-relaxed font-light font-serif italic">
@@ -52,7 +54,7 @@ const Foundation: React.FC = () => {
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-3 gap-10 mb-32">
+          <div className="grid lg:grid-cols-3 gap-10 mb-4">
             {FOUNDATION_INITIATIVES.map((initiative, idx) => (
               <div
                 key={initiative.id}
@@ -85,7 +87,7 @@ const Foundation: React.FC = () => {
       </section>
 
       {/* Scholarship Section */}
-      <section className="bg-primary/5 py-32 px-6 border-y border-primary/10 relative overflow-hidden">
+      <section className="bg-primary/5 py-16 px-6 border-y border-primary/10 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2"></div>
         <div className="container mx-auto">
           <div className="flex flex-col lg:flex-row gap-20 lg:items-center">
@@ -120,9 +122,9 @@ const Foundation: React.FC = () => {
                 ))}
               </div>
 
-              <button className="btn btn-primary btn-lg rounded-2xl px-12 shadow-xl shadow-primary/20 transition-transform hover:scale-105 active:scale-95">
+              <Link to="https://onelovesalonefoundation.org/" className="btn btn-primary btn-lg rounded-2xl px-12 shadow-xl shadow-primary/20 transition-transform hover:scale-105 active:scale-95">
                 Support the Fund
-              </button>
+              </Link>
             </div>
 
             <div className="lg:w-1/2 grid grid-cols-2 gap-8">
