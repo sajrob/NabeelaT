@@ -20,16 +20,26 @@ const Foundation: React.FC = () => {
       </Helmet>
 
       {/* Hero Section */}
-      <section className="relative h-[70vh] flex items-center justify-center overflow-hidden bg-base-200">
-        <div className="absolute inset-0 z-0">
+      <section className="relative h-[85vh] flex items-center justify-center overflow-hidden bg-black group">
+        <div className="absolute inset-0 z-0 overflow-hidden">
           <img
-            src="/IMG_9011-min.jpg"
-            alt="Unity"
-            className="w-full h-full object-cover opacity-60 scale-105 animate-float"
-            style={{ animationDuration: '30s' }}
+            src="/foundation_hero.png"
+            alt="One Love Salone Foundation Unity"
+            className="w-full h-full object-cover opacity-60 scale-100 transition-transform duration-[20000ms] ease-out group-hover:scale-110"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-base-100 via-transparent to-transparent"></div>
+          {/* Multi-layered premium overlays */}
+          <div className="absolute inset-0 bg-gradient-to-b from-neutral/40 via-transparent to-base-100"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-base-100/40 via-transparent to-transparent"></div>
+          <div className="absolute inset-0 bg-black/10"></div>
+
+          {/* Soft center glow */}
+          <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_center,_transparent_0%,_rgba(0,0,0,0.4)_100%)]"></div>
         </div>
+
+        {/* Decorative elements */}
+        <div className="absolute top-12 left-12 w-24 h-24 border-t-2 border-l-2 border-primary/20 z-10 hidden md:block"></div>
+        <div className="absolute bottom-12 right-12 w-24 h-24 border-b-2 border-r-2 border-primary/20 z-10 hidden md:block"></div>
+
         <div className="relative z-10 text-center text-white px-6">
           <div className="animate-in slide-up">
             <h1 className="text-5xl md:text-8xl font-bold mb-8 serif tracking-tight">
@@ -40,6 +50,8 @@ const Foundation: React.FC = () => {
             </p>
           </div>
         </div>
+
+        
       </section>
 
       {/* Core Mission */}
@@ -66,7 +78,7 @@ const Foundation: React.FC = () => {
                     alt={initiative.title}
                     className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                   />
-                  <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                  <div className="absolute inset-0 bg-neutral/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 </div>
                 <div className="p-10">
                   <span className="text-[10px] uppercase font-black tracking-widest text-primary mb-4 block">Key Program</span>
