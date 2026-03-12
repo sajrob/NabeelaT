@@ -85,12 +85,12 @@ const Navbar: React.FC = () => {
             className="flex items-center gap-4 active:scale-95 transition-transform group"
             aria-label="Hon. Nabeela Tunis Home"
           >
-            <div className="w-10 h-10 rounded-2xl bg-[#291334] flex items-center justify-center text-white shadow-lg shadow-[#291334]/20 group-hover:rotate-12 transition-all duration-500">
+            <div className="w-10 h-10 rounded-2xl bg-[#291334] flex items-center justify-center text-white shadow-lg shadow-[#291334]/20 group-hover:text-primary group-hover:rotate-12 transition-all duration-500">
               <span className="text-xl font-bold font-serif">N</span>
             </div>
             <div className="flex flex-col leading-none">
-              <span className="text-[#291334]/50 text-[10px] uppercase font-black tracking-[0.25em] mb-0.5 transition-colors duration-500">The Honorable</span>
-              <span className="text-[#291334] text-lg md:text-xl font-serif font-bold tracking-tight transition-colors duration-500">
+              <span className="text-[#291334]/50 text-[10px] uppercase font-black tracking-[0.25em] mb-0.5 transition-colors duration-500 group-hover:text-primary">The Honorable</span>
+              <span className="text-[#291334] text-lg md:text-xl font-serif font-bold tracking-tight transition-colors duration-500 group-hover:text-primary">
                 Nabeela Tunis
               </span>
             </div>
