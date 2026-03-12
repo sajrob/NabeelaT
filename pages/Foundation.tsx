@@ -20,7 +20,7 @@ const Foundation: React.FC = () => {
       </Helmet>
 
       {/* Hero Section */}
-      <section className="relative h-[70vh] flex items-center justify-center overflow-hidden bg-neutral">
+      <section className="relative h-[70vh] flex items-center justify-center overflow-hidden bg-base-200">
         <div className="absolute inset-0 z-0">
           <img
             src="/IMG_9011-min.jpg"
