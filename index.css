@@ -26,6 +26,27 @@
   .text-gradient {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-accent;
   }
+
+  .nav-link {
+    @apply relative px-3 py-2 text-sm font-medium tracking-wide transition-all duration-300 text-[#291334]/70 hover:text-[#291334] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-lg;
+  }
+
+  .nav-link-active {
+    @apply text-[#291334] font-semibold;
+  }
+
+  .nav-link::after {
+    content: '';
+    @apply absolute bottom-0 left-1 right-1 h-0.5 bg-primary scale-x-0 transition-transform duration-500 origin-center rounded-full;
+  }
+
+  .nav-link-active::after, .nav-link:hover::after {
+    @apply scale-x-100;
+  }
+
+  .glass-rim {
+    @apply border border-white/40 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] ring-1 ring-white/20;
+  }
 }
 
 /* Custom Animations */

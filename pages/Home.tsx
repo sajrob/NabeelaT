@@ -23,7 +23,7 @@ const Home: React.FC = () => {
         {/* Background Image & Overlays */}
         <div className="absolute inset-0 z-0 select-none pointer-events-none">
           <img
-            src="/HonNabeelaFaridaTunis.png"
+            src="/HonNabeelaFaridaTunis.webp"
             alt="Hon. Nabeela Tunis Background"
             className="w-full h-full object-cover absolute inset-0 transition-transform duration-[20s] ease-out group-hover:scale-110"
           />

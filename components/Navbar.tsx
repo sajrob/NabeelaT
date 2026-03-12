@@ -2,38 +2,34 @@ import React, { useEffect, useState, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 /**
- * Navbar component for site navigation.
+ * Navbar component for site navigation with enhanced accessibility and premium design.
+ * Polished with glassmorphism and refined transitions.
  */
 const Navbar: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownTimerRef = useRef<NodeJS.Timeout | null>(null);
   const location = useLocation();
 
-  // Ref updated to cover the nav container to prevent "click-outside" conflicts
   const navRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      setScrolled(window.scrollY > 50);
     };
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close mobile menu on route change
   useEffect(() => {
     setMobileMenuOpen(false);
     setDropdownOpen(false);
   }, [location.pathname]);
 
-  // Improved click-outside logic
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        navRef.current &&
-        !navRef.current.contains(event.target as Node)
-      ) {
+      if (navRef.current && !navRef.current.contains(event.target as Node)) {
         setDropdownOpen(false);
         setMobileMenuOpen(false);
       }
@@ -42,40 +38,135 @@ const Navbar: React.FC = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const getLinkClasses = (path: string) => {
-    const isActive = location.pathname === path;
-    return `px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 ${isActive
-      ? "bg-primary text-white shadow-md shadow-primary/20"
-      : "hover:bg-primary/70 text-base-content/80 hover:text-base-content"
-      }`;
+  const handleDropdownEnter = () => {
+    if (dropdownTimerRef.current) clearTimeout(dropdownTimerRef.current);
+    setDropdownOpen(true);
   };
 
-  const getMobileLinkClasses = (path: string) => {
-    const isActive = location.pathname === path;
-    return `block px-4 py-3 rounded-xl text-base font-medium transition-all duration-300 ${isActive
-      ? "bg-primary text-white shadow-md shadow-primary/20"
-      : "hover:bg-primary/70 text-base-content/80 hover:text-base-content"
-      }`;
+  const handleDropdownLeave = () => {
+    dropdownTimerRef.current = setTimeout(() => {
+      setDropdownOpen(false);
+    }, 150);
   };
+
+  const getLinkClasses = (path: string) => {
+    const isActive = location.pathname === path;
+    return `nav-link ${isActive ? "nav-link-active" : ""}`;
+  };
+
+  const navLinks = [
+    { name: "Home", path: "/" },
+    { name: "Biography", path: "/biography" },
+    { name: "News", path: "/news" },
+  ];
+
+  const impactLinks = [
+    { name: "Overview", path: "/impact" },
+    { name: "Tourism", path: "/tourism" },
+    { name: "Foundation", path: "/foundation" },
+  ];
 
   return (
     <nav
       ref={navRef}
-      className={`sticky top-0 inset-x-0 z-[100] transition-all duration-500 ${scrolled ? "bg-base-100/80 backdrop-blur-xl border-b border-base-200 py-2 shadow-sm" : "bg-base-100/40 backdrop-blur-md py-3 md:py-4"}`}
+      className={`fixed top-0 inset-x-0 z-[100] transition-all duration-700 ease-in-out px-4 md:px-8 py-4 ${scrolled ? "pt-4" : "pt-6"
+        }`}
     >
-      <div className="container mx-auto px-6 md:px-12 flex items-center justify-between">
-        {/* Logo */}
+      <div
+        className={`container mx-auto transition-all duration-700 cubic-bezier(0.4, 0, 0.2, 1) ${scrolled
+          ? "max-w-5xl bg-white/90 backdrop-blur-2xl glass-rim rounded-[2.5rem] px-8 py-3 shadow-2xl"
+          : "max-w-full bg-transparent px-2 py-0"
+          } flex items-center justify-between`}
+      >
+        {/* Logo Section */}
         <div className="flex items-center">
           <Link
             to="/"
-            className="text-xl md:text-2xl font-bold tracking-tighter serif flex items-center gap-3 active:scale-95 transition-transform group"
+            className="flex items-center gap-4 active:scale-95 transition-transform group"
+            aria-label="Hon. Nabeela Tunis Home"
           >
-            <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg md:rounded-xl bg-primary flex items-center justify-center text-white shadow-lg shadow-primary/20 group-hover:rotate-12 transition-transform">
-              <span className="text-lg md:text-xl">N</span>
+            <div className="w-10 h-10 rounded-2xl bg-[#291334] flex items-center justify-center text-white shadow-lg shadow-[#291334]/20 group-hover:rotate-12 transition-all duration-500">
+              <span className="text-xl font-bold font-serif">N</span>
             </div>
-            <span className="text-primary">
-              <span className="text-black">Hon.</span> Nabeela Tunis
-            </span>
+            <div className="flex flex-col leading-none">
+              <span className="text-[#291334]/50 text-[10px] uppercase font-black tracking-[0.25em] mb-0.5 transition-colors duration-500">The Honorable</span>
+              <span className="text-[#291334] text-lg md:text-xl font-serif font-bold tracking-tight transition-colors duration-500">
+                Nabeela Tunis
+              </span>
+            </div>
+          </Link>
+        </div>
+
+        {/* Desktop Navigation */}
+        <div className="hidden lg:flex items-center gap-1">
+          {navLinks.map((link) => (
+            <Link
+              key={link.path}
+              to={link.path}
+              className={getLinkClasses(link.path)}
+              aria-current={location.pathname === link.path ? "page" : undefined}
+            >
+              {link.name}
+            </Link>
+          ))}
+
+          {/* Impact Dropdown */}
+          <div
+            className="relative group/impact"
+            onMouseEnter={handleDropdownEnter}
+            onMouseLeave={handleDropdownLeave}
+          >
+            <button
+              onClick={() => setDropdownOpen((prev) => !prev)}
+              className={`flex items-center gap-1.5 transition-all duration-500 nav-link ${["/tourism", "/foundation", "/impact"].includes(location.pathname) ? "nav-link-active" : ""
+                }`}
+              aria-expanded={dropdownOpen}
+              aria-haspopup="true"
+            >
+              Impact
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className={`h-3.5 w-3.5 transition-transform duration-500 ${dropdownOpen ? "rotate-180" : "group-hover/impact:rotate-180"
+                  }`}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2.5}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+
+            {/* Dropdown Menu */}
+            <div
+              className={`absolute top-full left-0 mt-3 w-52 bg-white/95 backdrop-blur-2xl rounded-[1.8rem] shadow-2xl border border-white/40 ring-1 ring-black/[0.03] overflow-hidden transition-all duration-300 origin-top transform ${dropdownOpen ? "scale-y-100 opacity-100 translate-y-0" : "scale-y-95 opacity-0 -translate-y-2 pointer-events-none"
+                }`}
+            >
+              <div className="p-2.5 flex flex-col gap-1">
+                {impactLinks.map((link) => (
+                  <Link
+                    key={link.path}
+                    to={link.path}
+                    className={`px-4 py-3 rounded-2xl transition-all duration-300 text-sm font-medium ${location.pathname === link.path
+                      ? "bg-[#291334]/5 text-[#291334]"
+                      : "hover:bg-[#291334]/5 text-[#291334]/70 hover:text-[#291334]"
+                      }`}
+                  >
+                    {link.name}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="w-px h-6 bg-[#291334]/10 mx-5 transition-colors duration-500"></div>
+
+          <Link
+            to="/contact"
+            className="group relative inline-flex items-center justify-center px-7 py-3 font-bold text-white transition-all duration-500 bg-[#291334] rounded-[1.2rem] hover:bg-[#291334]/90 hover:shadow-2xl hover:shadow-[#291334]/20 active:scale-95 overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#291334] focus-visible:ring-offset-2"
+          >
+            <span className="relative z-10 text-sm">Get in touch</span>
+            <div className="absolute inset-0 bg-white/10 transform translate-y-full group-hover:translate-y-0 transition-transform duration-700"></div>
           </Link>
         </div>
 
@@ -83,181 +174,96 @@ const Navbar: React.FC = () => {
         <div className="flex items-center lg:hidden">
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="btn btn-ghost btn-circle"
-            aria-label="Toggle Navigation"
+            className={`p-3 rounded-2xl bg-[#291334] shadow-xl shadow-[#291334]/20 text-white transition-all duration-500 active:scale-90 ${mobileMenuOpen ? "bg-primary text-[#291334]" : ""}`}
+            aria-label={mobileMenuOpen ? "Close Menu" : "Open Menu"}
+            aria-expanded={mobileMenuOpen}
           >
             <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
+              className="w-6 h-6"
               fill="none"
-              viewBox="0 0 24 24"
               stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
             >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                strokeWidth={2}
-                d={
-                  mobileMenuOpen
-                    ? "M6 18L18 6M6 6l12 12"
-                    : "M4 6h16M4 12h16M4 18h16"
-                }
+                strokeWidth={2.5}
+                d={mobileMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}
               />
             </svg>
           </button>
-        </div>
-
-        {/* Desktop Navigation */}
-        <div className="hidden lg:flex items-center gap-2">
-          <Link to="/" className={getLinkClasses("/")}>
-            Home
-          </Link>
-          <Link to="/biography" className={getLinkClasses("/biography")}>
-            Biography
-          </Link>
-          <Link to="/news" className={getLinkClasses("/news")}>
-            News
-          </Link>
-
-          {/* Impact Dropdown */}
-          <div className="relative group">
-            <button
-              onClick={() => setDropdownOpen((prev) => !prev)}
-              className={`flex items-center gap-1 ${getLinkClasses("/impact")} ${["/tourism", "/foundation", "/impact"].includes(location.pathname) ? "bg-primary text-white shadow-md shadow-primary/20" : ""}`}
-            >
-              Impact
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className={`h-4 w-4 transition-transform ${dropdownOpen ? "rotate-180" : "group-hover:rotate-180"}`}
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
-            </button>
-
-            {/* Dropdown Menu - Hover on Desktop */}
-            <div
-              className={`absolute top-full left-0 mt-3 w-56 bg-base-100 rounded-2xl shadow-2xl border border-base-200 overflow-hidden transition-all origin-top ${dropdownOpen ? "scale-y-100 opacity-100" : "scale-y-0 opacity-0 group-hover:scale-y-100 group-hover:opacity-100"}`}
-            >
-              <div className="p-2 flex flex-col gap-1">
-                <Link
-                  to="/impact"
-                  className="px-4 py-2 rounded-xl hover:bg-primary/70 transition-colors text-sm font-medium"
-                >
-                  Overview
-                </Link>
-                <Link
-                  to="/tourism"
-                  className="px-4 py-2 rounded-xl hover:bg-primary/70 transition-colors text-sm font-medium"
-                >
-                  Tourism
-                </Link>
-                <Link
-                  to="/foundation"
-                  className="px-4 py-2 rounded-xl hover:bg-primary/70 transition-colors text-sm font-medium"
-                >
-                  Foundation
-                </Link>
-              </div>
-            </div>
-          </div>
-
-          <div className="w-px h-6 bg-base-200 mx-2"></div>
-
-          <Link
-            to="/contact"
-            className="btn btn-primary btn-sm md:btn-sm rounded-xl px-6 shadow-md shadow-primary/20 transition-transform active:scale-95"
-          >
-            Get in touch
-          </Link>
         </div>
       </div>
 
       {/* Mobile Navigation Menu */}
       <div
-        className={`lg:hidden fixed inset-x-4 top-[80px] rounded-3xl transition-all duration-300 ease-in-out overflow-hidden shadow-2xl border border-white/5 backdrop-blur-3xl z-50 ${mobileMenuOpen
-          ? "max-h-[600px] opacity-100 scale-100 bg-base-100/95"
-          : "max-h-0 opacity-0 scale-95 pointer-events-none"
+        className={`lg:hidden fixed inset-x-4 top-[100px] rounded-[2.5rem] transition-all duration-500 cubic-bezier(0.4, 0, 0.2, 1) glass-rim bg-white/95 backdrop-blur-3xl z-50 overflow-hidden ${mobileMenuOpen
+          ? "max-h-[85vh] opacity-100 scale-100 translate-y-0 pointer-events-auto shadow-2xl"
+          : "max-h-0 opacity-0 scale-95 -translate-y-4 pointer-events-none"
           }`}
       >
-        <div className="p-4 flex flex-col gap-2">
-          <Link to="/" className={getMobileLinkClasses("/")}>
-            Home
-          </Link>
-          <Link to="/biography" className={getMobileLinkClasses("/biography")}>
-            Biography
-          </Link>
-          <Link to="/news" className={getLinkClasses("/news")}>
-            News
-          </Link>
+        <div className="p-8 flex flex-col gap-4">
+          {navLinks.map((link) => (
+            <Link
+              key={link.path}
+              to={link.path}
+              className={`block px-6 py-5 rounded-[1.8rem] text-xl font-bold transition-all duration-300 ${location.pathname === link.path
+                ? "bg-[#291334] text-white shadow-2xl shadow-[#291334]/20"
+                : "hover:bg-[#291334]/5 text-[#291334]"
+                }`}
+            >
+              {link.name}
+            </Link>
+          ))}
 
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-3">
             <button
-              onClick={(e) => {
-                e.stopPropagation();
-                setDropdownOpen((prev) => !prev);
-              }}
-              className={`flex items-center justify-between px-4 py-3 rounded-xl text-base font-medium transition-all duration-300 ${["/tourism", "/foundation", "/impact"].includes(location.pathname) ? "bg-primary text-white shadow-md shadow-primary/20" : "hover:bg-primary/30 text-base-content/80 hover:text-base-content"}`}
+              onClick={() => setDropdownOpen((prev) => !prev)}
+              className={`flex items-center justify-between px-6 py-5 rounded-[1.8rem] text-xl font-bold transition-all duration-300 ${["/tourism", "/foundation", "/impact"].includes(location.pathname)
+                ? "bg-[#291334]/5 text-[#291334]"
+                : "hover:bg-[#291334]/5 text-[#291334]"
+                }`}
             >
               Impact
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className={`h-5 w-5 transition-transform duration-300 ${dropdownOpen ? "rotate-180" : ""}`}
+                className={`h-6 w-6 transition-transform duration-500 ${dropdownOpen ? "rotate-180" : ""}`}
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
+                strokeWidth={2.5}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M19 9l-7 7-7-7"
-                />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
             </button>
 
-            {/* Mobile Dropdown Content */}
             <div
-              className={`flex flex-col overflow-hidden transition-all duration-300 ${dropdownOpen ? "max-h-64 opacity-100 mt-1" : "max-h-0 opacity-0"}`}
+              className={`flex flex-col gap-1.5 px-4 overflow-hidden transition-all duration-500 ${dropdownOpen ? "max-h-[400px] opacity-100 mb-4" : "max-h-0 opacity-0"
+                }`}
             >
-              <div className="flex flex-col gap-1 p-2 bg-base-200/50 rounded-2xl mx-2">
+              {impactLinks.map((link) => (
                 <Link
-                  to="/impact"
-                  className="block px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-primary/30 transition-colors"
+                  key={link.path}
+                  to={link.path}
+                  className={`px-6 py-4 rounded-2xl transition-all duration-300 text-lg font-semibold ${location.pathname === link.path
+                    ? "text-primary bg-primary/5"
+                    : "text-[#291334]/70 hover:text-[#291334]"
+                    }`}
                 >
-                  Overview
+                  {link.name}
                 </Link>
-                <Link
-                  to="/tourism"
-                  className="block px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-primary/30 transition-colors"
-                >
-                  Tourism
-                </Link>
-                <Link
-                  to="/foundation"
-                  className="block px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-primary/30 transition-colors"
-                >
-                  Foundation
-                </Link>
-              </div>
+              ))}
             </div>
           </div>
 
-          <div className="h-px bg-base-content/10 my-2 mx-4"></div>
+          <div className="h-px bg-[#291334]/10 my-4 mx-6"></div>
 
           <Link
             to="/contact"
-            className="btn btn-primary w-full rounded-2xl py-3 shadow-lg shadow-primary/20 border-none group relative overflow-hidden"
+            className="flex items-center justify-center py-6 rounded-[2rem] bg-[#291334] text-white font-black text-xl shadow-2xl shadow-[#291334]/20 active:scale-95 transition-all active:bg-[#291334]/90"
           >
-            <span className="relative z-10">Get in touch</span>
-            <div className="absolute inset-0 bg-white/20 transform -translate-x-full skew-x-12 group-hover:translate-x-full transition-transform duration-700"></div>
+            Get in touch
           </Link>
         </div>
       </div>
