@@ -147,7 +147,7 @@ const Biography: React.FC = () => {
                 </p>
                 <div className="p-6 bg-white/40 backdrop-blur-sm rounded-2xl border border-white/40">
                   <p className="opacity-80 leading-relaxed italic">
-                    As a mother, she balances the rigors of ministerial duties with a deep commitment to her household. This personal experience informs her advocacy for family-centered policies and her drive to create a safer, more prosperous future for the children of Sierra Leone.
+                    As a mother of three children, she balances the rigors of ministerial duties with a deep commitment to her household. This personal experience informs her advocacy for family-centered policies and her drive to create a safer, more prosperous future for the children of Sierra Leone.
                   </p>
                 </div>
               </div>

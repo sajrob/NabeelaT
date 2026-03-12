@@ -23,11 +23,13 @@ const Home: React.FC = () => {
         {/* Background Image & Overlays */}
         <div className="absolute inset-0 z-0 select-none pointer-events-none">
           <img
-            src="/HonNabeelaFaridaTunis.webp"
+            src="/Homepage-Hero.webp"
             alt="Hon. Nabeela Tunis Background"
             className="w-full h-full object-cover absolute inset-0 transition-transform duration-[20s] ease-out group-hover:scale-110"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent to-primary/20"></div>
+          {/* Darken Overlays */}
+          <div className="absolute inset-0 bg-black/40"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-primary/20"></div>
         </div>
 
         <div className="container mx-auto px-6 md:px-12 relative z-10 py-32 md:py-0 -mt-8 md:-mt-16">
