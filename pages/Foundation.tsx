@@ -23,7 +23,7 @@ const Foundation: React.FC = () => {
       <section className="relative h-[85vh] flex items-center justify-center overflow-hidden bg-black group">
         <div className="absolute inset-0 z-0 overflow-hidden">
           <img
-            src="/foundation_hero.png"
+            src="/foundation_hero.webp"
             alt="One Love Salone Foundation Unity"
             className="w-full h-full object-cover opacity-60 scale-100 transition-transform duration-[20000ms] ease-out group-hover:scale-110"
           />
@@ -51,7 +51,7 @@ const Foundation: React.FC = () => {
           </div>
         </div>
 
-        
+
       </section>
 
       {/* Core Mission */}
