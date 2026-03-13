@@ -24,8 +24,7 @@ const Home: React.FC = () => {
         <div className="absolute inset-0 z-0 select-none pointer-events-none">
           <img
             src="/Homepage-Hero.webp"
-            alt="Hon. Nabeela Tunis"
-            fetchPriority="high"
+            alt="Hon. Nabeela Tunis Background"
             className="w-full h-full object-cover absolute inset-0 transition-transform duration-[20s] ease-out group-hover:scale-110"
           />
           {/* Darken Overlays */}
@@ -69,7 +68,7 @@ const Home: React.FC = () => {
             <div className="flex flex-wrap gap-8 animate-in slide-up delay-200">
               <Link
                 to="/biography"
-                className="btn btn-primary btn-lg rounded-2xl px-12 shadow-[0_20px_50px_rgba(0,0,0,0.3)] shadow-primary/20 group hover:scale-105 transition-[transform,shadow,background-color] duration-300 text-white border-none"
+                className="btn btn-primary btn-lg rounded-2xl px-12 shadow-[0_20px_50px_rgba(0,0,0,0.3)] shadow-primary/20 group hover:scale-105 transition-all text-white border-none"
               >
                 The Journey
                 <svg
