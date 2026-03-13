@@ -1,17 +1,28 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import React, { Suspense, lazy } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import ScrollToTop from "./components/ScrollToTop";
 import Footer from "./components/Footer";
-import Home from "./pages/Home";
-import Biography from "./pages/Biography";
-import Tourism from "./pages/Tourism";
-import Impact from "./pages/Impact";
-import Contact from "./pages/Contact";
-import Foundation from "./pages/Foundation";
-import News from "./pages/News";
 
 import { HelmetProvider } from "react-helmet-async";
+
+// Lazy load pages for better performance
+const Home = lazy(() => import("./pages/Home"));
+const Biography = lazy(() => import("./pages/Biography"));
+const Tourism = lazy(() => import("./pages/Tourism"));
+const Impact = lazy(() => import("./pages/Impact"));
+const Contact = lazy(() => import("./pages/Contact"));
+const Foundation = lazy(() => import("./pages/Foundation"));
+const News = lazy(() => import("./pages/News"));
+
+/**
+ * Loading fallback component
+ */
+const PageLoader = () => (
+  <div className="flex items-center justify-center min-h-[60vh]">
+    <span className="loading loading-spinner loading-lg text-primary"></span>
+  </div>
+);
 
 /**
  * Wrapper for main content to handle conditional layout spacing.
@@ -19,15 +30,17 @@ import { HelmetProvider } from "react-helmet-async";
 const MainContent: React.FC = () => {
   return (
     <main className="flex-grow pt-20 md:pt-28">
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/biography" element={<Biography />} />
-        <Route path="/tourism" element={<Tourism />} />
-        <Route path="/impact" element={<Impact />} />
-        <Route path="/foundation" element={<Foundation />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/news" element={<News />} />
-      </Routes>
+      <Suspense fallback={<PageLoader />}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/biography" element={<Biography />} />
+          <Route path="/tourism" element={<Tourism />} />
+          <Route path="/impact" element={<Impact />} />
+          <Route path="/foundation" element={<Foundation />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/news" element={<News />} />
+        </Routes>
+      </Suspense>
     </main>
   );
 };
@@ -51,3 +64,4 @@ const App: React.FC = () => {
 };
 
 export default App;
+
